@@ -47,7 +47,7 @@ const EmployeeCards = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/create", {
+      const response = await axios.post("http://16.170.204.4:5000/api/create", {
         name: employeeName,
         designation,
         address,

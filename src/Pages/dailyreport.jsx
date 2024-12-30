@@ -21,7 +21,7 @@ const DailyReport = () => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/employees");
+        const response = await axios.get("http://16.170.204.4:5000/api/employees");
         const employee = response.data.find(emp => emp._id === employeeId);
         if (employee) {
           setAttendanceData(employee.attendance);

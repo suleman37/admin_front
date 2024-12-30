@@ -56,7 +56,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/employees");
+        const response = await axios.get("http://16.170.204.4:5000/api/employees");
         const transformedData = transformDataForCharts(response.data);
         setEmployeeMonthlyPerformanceData(transformedData.monthly);
         setEmployeeWeeklyPerformanceData(transformedData.weekly);
