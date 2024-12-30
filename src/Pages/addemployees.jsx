@@ -1,10 +1,11 @@
-import { Box, Typography, Button, Card, CardContent } from "@mui/material";
+import { Box, Typography, Button, Card, CardContent, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "../Components/inputmodal";
 import { ToastContainer, toast } from "material-react-toastify";
 import 'material-react-toastify/dist/ReactToastify.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EmployeeCards = () => {
   const navigate = useNavigate();
@@ -66,6 +67,16 @@ const EmployeeCards = () => {
     navigate(`/employee/${employee._id}`);
   };
 
+  const handleDeleteEmployee = async (employeeId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/employees/${employeeId}`);
+      setEmployees(employees.filter(employee => employee._id !== employeeId));
+      toast.success("Employee deleted successfully.");
+    } catch (error) {
+      toast.error(`Error deleting employee: ${error.response?.data || error.message}`);
+    }
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
@@ -80,7 +91,16 @@ const EmployeeCards = () => {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
         {employees.map((employee, index) => (
           employee && (
-            <Card key={index} sx={{ width: 460, height: 'auto', cursor: 'pointer', flex: '1 1 calc(33.333% - 16px)' }} onClick={() => handleCardClick(employee)}>
+            <Card key={index} sx={{ width: 460, height: 'auto', cursor: 'pointer', flex: '1 1 calc(33.333% - 16px)', position: 'relative' }} onClick={() => handleCardClick(employee)}>
+              <IconButton
+                sx={{ position: 'absolute', top: 0, right: 0 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteEmployee(employee._id);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
               <CardContent>
                 <Typography variant="h5" component="div">
                   <b>{employee.name}</b>
